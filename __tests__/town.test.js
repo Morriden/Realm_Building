@@ -49,4 +49,30 @@ describe('Town routes', () => {
         });
       });
   });
+
+  it('gets all pizzas via GET route', () => {
+    return Town.create({
+      name: 'My town',
+      food: 1,
+      law: 1,
+      population: 1,
+      production: 1,
+      traffic: 1,
+      location: 'mine',
+    })
+      .then(() => request(app).get('/api/v1/towns'))
+      .then(res => {
+        expect(res.body).toEqual([{
+          _id: expect.anything(),
+          name: 'My town',
+          food: 1,
+          law: 1,
+          population: 1,
+          production: 1,
+          traffic: 1,
+          location: 'mine',
+          __v: 0
+        }]);
+      });
+  });
 });
