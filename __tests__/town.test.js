@@ -50,7 +50,7 @@ describe('Town routes', () => {
       });
   });
 
-  it('gets all pizzas via GET route', () => {
+  it('gets all town via GET route', () => {
     return Town.create({
       name: 'My town',
       food: 1,
@@ -75,4 +75,36 @@ describe('Town routes', () => {
         }]);
       });
   });
+
+  it('updates a town with PATCH route', () => {
+    return Town.create({
+      name: 'My town',
+      food: 1,
+      law: 1,
+      population: 1,
+      production: 1,
+      traffic: 1,
+      location: 'mine',
+    })
+      .then(town => {
+        return request(app)
+          .patch(`/api/v1/towns/${town._id}`)
+          .send({ population: 2, production: 3 });
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.anything(),
+          name: 'My town',
+          food: 1,
+          law: 1,
+          population: 2,
+          production: 3,
+          traffic: 1,
+          location: 'mine',
+          __v: 0
+        });
+      });
+  });
+
+  
 });
