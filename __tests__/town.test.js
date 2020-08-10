@@ -106,5 +106,32 @@ describe('Town routes', () => {
       });
   });
 
-  
+  it('deletes a town via delete route', () => {
+    return Town.create({
+      name: 'My town',
+      food: 1,
+      law: 1,
+      population: 1,
+      production: 1,
+      traffic: 1,
+      location: 'mine',
+    })
+      .then(town => {
+        return request(app)
+          .delete(`/api/v1/towns/${town._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.anything(),
+          name: 'My town',
+          food: 1,
+          law: 1,
+          population: 1,
+          production: 1,
+          traffic: 1,
+          location: 'mine',
+          __v: 0
+        });
+      });
+  });
 });
